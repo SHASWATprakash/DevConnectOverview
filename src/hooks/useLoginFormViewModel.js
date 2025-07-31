@@ -1,5 +1,6 @@
 // src/hooks/useLoginFormViewModel.js
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import api from '../services/api';
 import endpoints from '../services/endpoints';
 
@@ -7,6 +8,7 @@ const useLoginFormViewModel = () => {
   const [form, setForm] = useState({ email: '', password: '' });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const navigate = useNavigate(); // Get the navigate function
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -27,7 +29,7 @@ const useLoginFormViewModel = () => {
 
       const { token } = response.data;
       localStorage.setItem("token", token);
-      // Optionally navigate or show success
+      navigate('/profile'); // Navigate to the profile page
     } catch (err) {
       console.error("❌ Login error:", err);
       console.log("🔍 Error response:", err.response);
