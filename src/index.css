@@ -1,9 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-body {
-  /* Add Tailwind classes directly in your HTML, or configure your build to process @apply */
-  font-family: var(--font-sans, sans-serif);
-  background-color: var(--fb-bg, #f0f2f5);
-  color: var(--fb-text, #050505);
+
+@layer base {
+  body {
+    @apply font-sans bg-gray-100 text-gray-900 dark:bg-gray-900 dark:text-gray-100;
+  }
 }
