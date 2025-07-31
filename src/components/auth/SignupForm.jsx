@@ -1,6 +1,8 @@
 import { Link } from "react-router-dom";
 import useSignupFormViewModel from "../../hooks/useSignupFormViewModel"; // Import the ViewModel hook
 import ThemeToggle from "../ThemeToggle"; // Import ThemeToggle
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const SignupForm = () => {
   const { form, loading, error, handleChange, handleSubmit } = useSignupFormViewModel(); // Use the ViewModel hook
@@ -54,6 +56,7 @@ const SignupForm = () => {
           </Link>
         </p>
       </form>
+      <ToastContainer />
     </div>
   );
 };
