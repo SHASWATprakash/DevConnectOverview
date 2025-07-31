@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
-import useLoginFormViewModel from "../hooks/useLoginFormViewModel"; // Import the ViewModel hook
-import ThemeToggle from "../components/ThemeToggle"; // Import ThemeToggle
+import useLoginFormViewModel from "../../hooks/useLoginFormViewModel"; // Import the ViewModel hook
+import ThemeToggle from "../ThemeToggle"; // Import ThemeToggle
 
 const LoginForm = () => {
   const { form, loading, error, handleChange, handleSubmit } = useLoginFormViewModel(); // Use the ViewModel hook

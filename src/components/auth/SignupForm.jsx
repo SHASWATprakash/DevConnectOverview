@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import useSignupFormViewModel from "../hooks/useSignupFormViewModel"; // Import the ViewModel hook
+import useSignupFormViewModel from "../../hooks/useSignupFormViewModel"; // Import the ViewModel hook
 import ThemeToggle from "../ThemeToggle"; // Import ThemeToggle
 
 const SignupForm = () => {
