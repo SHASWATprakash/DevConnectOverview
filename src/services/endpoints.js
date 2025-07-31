@@ -4,7 +4,16 @@ const endpoints = {
     login: "/auth/login",
     signup: "/auth/signup",
   },
-  // Add other domains like user, project, comment here
+  user: {
+    profile: (userId) => `/user/${userId}/profile`,
+    projects: (userId) => `/user/${userId}/projects`,
+    comments: (userId) => `/user/${userId}/comments`,
+  },
+  projects: {
+    getProject: (projectId) => `/projects/${projectId}`,
+    getComments: (projectId) => `/projects/${projectId}/comments`,
+    addComment: (projectId) => `/projects/${projectId}/comments`,
+  },
 };
 
 export default endpoints;

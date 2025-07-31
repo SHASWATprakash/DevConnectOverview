@@ -1,15 +1,30 @@
-import { Link } from "react-router-dom";
-import useLoginFormViewModel from "../../hooks/useLoginFormViewModel"; // Import the ViewModel hook
-import ThemeToggle from "../ThemeToggle"; // Import ThemeToggle
-import { ToastContainer } from 'react-toastify';
+import React, { useEffect } from 'react';
+import { Link, useNavigate } from "react-router-dom"; // Import useNavigate
+import ThemeToggle from "../ThemeToggle";
+import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import useLoginForm from '../../hooks/useLoginForm';
 
 const LoginForm = () => {
-  const { form, loading, error, handleChange, handleSubmit } = useLoginFormViewModel(); // Use the ViewModel hook
+  console.log('✨ LoginForm mounted');
+  const navigate = useNavigate(); // Get the navigate function
+
+  const { form, loading, error, handleChange, handleSubmit } = useLoginForm();
+
+  useEffect(() => {
+    console.log('❌ LoginForm error effect. Error:', error);
+    if (error) {
+      toast.error(error);
+    }
+  }, [error]);
+
+  const handleCreateAccountClick = () => {
+      navigate('/signup'); // Navigate to the signup page
+  };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100 dark:bg-gray-900 py-12 px-4 sm:px-6 lg:px-8 font-sans relative"> {/* Added relative positioning */}
-       <div className="absolute top-4 right-4 z-10"> {/* Position ThemeToggle */}
+    <div className="min-h-screen flex items-center justify-center bg-gray-100 dark:bg-gray-900 py-12 px-4 sm:px-6 lg:px-8 font-sans relative">
+       <div className="absolute top-4 right-4 z-10">
         <ThemeToggle />
       </div>
       <div className="max-w-md w-full space-y-8 bg-white dark:bg-gray-800 p-10 rounded-xl shadow-2xl">
@@ -19,7 +34,6 @@ const LoginForm = () => {
           </h2>
         </div>
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
-          {error && <p className="text-red-500 dark:text-red-400 text-sm text-center">{error}</p>}
           <div className="rounded-md shadow-sm -space-y-px">
             <div>
               <label htmlFor="email-address" className="sr-only">Email address</label>
@@ -51,6 +65,17 @@ const LoginForm = () => {
             </div>
           </div>
 
+          <div className="flex items-center justify-between">
+            <div className="flex items-center">
+              {/* Remember Me Checkbox (Optional) */}
+            </div>
+            <div className="text-sm">
+              <Link to="/forgot-password" className="font-medium text-blue-600 hover:text-blue-500 dark:text-blue-400 dark:hover:text-blue-300">
+                Forgot your password?
+              </Link>
+            </div>
+          </div>
+
           <div>
             <button
               type="submit"
@@ -63,9 +88,13 @@ const LoginForm = () => {
 
           <p className="text-center text-sm text-gray-600 dark:text-gray-400">
             Or
-            <Link to="/signup" className="font-medium text-blue-600 hover:text-blue-500 dark:text-blue-400 dark:hover:text-blue-300 ml-1">
+            {/* Replaced Link with a button-like span and onClick handler */}
+            <span
+                className="font-medium text-blue-600 hover:text-blue-500 dark:text-blue-400 dark:hover:text-blue-300 ml-1 cursor-pointer"
+                onClick={handleCreateAccountClick}
+            >
               create a new account
-            </Link>
+            </span>
           </p>
         </form>
       </div>
