@@ -39,28 +39,25 @@ export const AuthProvider = ({ children }) => {
   }, [dispatch]);
 
   // Redirect logic
-  useEffect(() => {
-    const publicRoutes = ['/login', '/signup', '/register', '/forgot-password', '/'];
+ useEffect(() => {
+  const publicRoutes = ['/login', '/signup', '/register', '/forgot-password', '/'];
 
-    console.log(
-      '🚦 AuthContext redirect useEffect triggered.',
-      'User:', user,
-      'Loading:', loading,
-      'Path:', location.pathname
-    );
+  console.log('🚦 AuthContext redirect useEffect triggered. User:', user, 'Loading:', loading, 'Path:', location.pathname);
 
-    if (!loading) {
-      if (user && publicRoutes.includes(location.pathname)) {
-        // Redirect authenticated user away from login/signup
-        console.log('➡️ Redirecting authenticated user to /home');
-        if (location.pathname !== '/home') navigate('/home');
-      } else if (!user && !publicRoutes.includes(location.pathname)) {
-        // Redirect unauthenticated user away from protected pages
-        console.log('➡️ Redirecting unauthenticated user to /login');
-        if (location.pathname !== '/login') navigate('/login');
-      }
+  if (loading) return; // ⛔️ Don't redirect during loading phase
+
+  if (user && publicRoutes.includes(location.pathname)) {
+    if (location.pathname !== '/home') {
+      console.log('➡️ Redirecting authenticated user to /home');
+      navigate('/home');
     }
-  }, [user, loading, location.pathname, navigate]);
+  } else if (!user && !publicRoutes.includes(location.pathname)) {
+    if (location.pathname !== '/login') {
+      console.log('➡️ Redirecting unauthenticated user to /login');
+      navigate('/login');
+    }
+  }
+}, [user, loading, location.pathname, navigate]);
 
   const logout = () => {
     dispatch(clearLoginUser());

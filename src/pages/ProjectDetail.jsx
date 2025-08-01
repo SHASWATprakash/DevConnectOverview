@@ -106,7 +106,7 @@ const ProjectDetail = () => {
             project.comments.map(comment => (
               <div key={comment._id} className="border rounded-lg p-3 bg-gray-100 dark:bg-gray-800">
                 <p className="text-gray-800 dark:text-gray-200">{comment.text}</p>
-                <p className="text-gray-500 dark:text-gray-400 text-sm">by {comment.author ? comment.author.username : 'Unknown'} on {new Date(comment.createdAt).toLocaleDateString()}</p>
+                <p className="text-gray-500 dark:text-gray-400 text-sm">by {comment.author ? comment.author.name : 'Unknown'} on {new Date(comment.createdAt).toLocaleDateString()}</p>
               </div>
             ))
           ) : (

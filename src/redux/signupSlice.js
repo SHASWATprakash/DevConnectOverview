@@ -5,9 +5,9 @@ import endpoints from '../services/endpoints';
 // Async thunk for user signup
 export const signupUser = createAsyncThunk(
   'signup/signupUser',
-  async ({ username, email, password }, { rejectWithValue }) => {
+  async ({ name, email, password }, { rejectWithValue }) => {
     try {
-      const response = await api.post(endpoints.auth.signup, { username, email, password });
+      const response = await api.post(endpoints.auth.signup, { name, email, password });
       return response.data; // Assuming your API returns some data upon successful signup
     } catch (error) {
       // Handle API errors

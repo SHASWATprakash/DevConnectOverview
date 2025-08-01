@@ -8,7 +8,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const SignupForm = () => {
   console.log('✨ SignupForm mounted');
-  const [form, setForm] = useState({ username: '', email: '', password: '' });
+  const [form, setForm] = useState({ name: '', email: '', password: '' });
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -57,16 +57,16 @@ const SignupForm = () => {
           {/* Error handling is now done with ToastContainer */}
           <div className="rounded-md shadow-sm -space-y-px">
             <div>
-              <label htmlFor="username" className="sr-only">Username</label>
+              <label htmlFor="name" className="sr-only">Name</label>
               <input
-                id="username"
-                name="username"
+                id="name"
+                name="name"
                 type="text"
-                autoComplete="username"
+                autoComplete="name"
                 required
                 className="appearance-none rounded-none relative block w-full px-3 py-3 border border-gray-300 dark:border-gray-700 placeholder-gray-500 dark:placeholder-gray-400 text-gray-900 dark:text-white rounded-t-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm bg-gray-50 dark:bg-gray-700"
-                placeholder="Username"
-                value={form.username}
+                placeholder="Name"
+                value={form.name}
                 onChange={handleChange}
               />
             </div>

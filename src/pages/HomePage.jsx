@@ -79,7 +79,7 @@ const HomePage = () => {
         <form onSubmit={handleSearchSubmit} className="w-full max-w-md flex mb-4">
           <input
             type="text"
-            placeholder={searchType === 'projects' ? 'Search projects by title or description...' : 'Search users by username...'}
+            placeholder={searchType === 'projects' ? 'Search projects by title or description...' : 'Search users by name...'}
             value={searchTerm}
             onChange={handleSearchInputChange}
             className="shadow appearance-none border rounded-l w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
@@ -129,7 +129,7 @@ const HomePage = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {usersToDisplay.map(user => (
                         <div key={user._id} className="border rounded-lg p-4 flex flex-col items-center">
-                            <h3 className="text-xl font-semibold mb-2">{user.username}</h3>
+                            <h3 className="text-xl font-semibold mb-2">{user.name}</h3>
                             {/* Link to user profile */}
                             <Link to={`/profile/${user._id}`} className="text-blue-500 hover:underline">View Profile</Link>
                         </div>
