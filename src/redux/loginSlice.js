@@ -1,13 +1,13 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import api from '../services/api';
 import projectService from '../services/projectService'; // Import projectService
-
+import endpoints from '../services/endpoints';
 // Async thunk for user login
 export const loginUser = createAsyncThunk(
   'login/loginUser',
   async ({ email, password }, { rejectWithValue }) => {
     try {
-      const response = await api.post('/api/user/login', { email, password });
+      const response = await api.post(endpoints.auth.login, { email, password });
       const token = response.data.token;
       sessionStorage.setItem('token', token);
       return response.data; // Should include user data

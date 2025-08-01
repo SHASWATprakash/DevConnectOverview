@@ -1,12 +1,13 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import api from '../services/api'; // Assuming your api service
+import endpoints from '../services/endpoints';
 
 // Async thunk for user signup
 export const signupUser = createAsyncThunk(
   'signup/signupUser',
   async ({ username, email, password }, { rejectWithValue }) => {
     try {
-      const response = await api.post('/api/user/register', { username, email, password });
+      const response = await api.post(endpoints.auth.signup, { username, email, password });
       return response.data; // Assuming your API returns some data upon successful signup
     } catch (error) {
       // Handle API errors

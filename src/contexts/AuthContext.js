@@ -1,8 +1,13 @@
 import React, { createContext, useEffect, useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { selectLoggedInUser, setLoginUser, clearLoginUser, selectLoginLoading } from '../redux/loginSlice';
-import api from '../services/api'; // Assuming you have an api service configured
+import {
+  selectLoggedInUser,
+  setLoginUser,
+  clearLoginUser,
+  selectLoginLoading,
+} from '../redux/loginSlice';
+import api from '../services/api'; // Ensure this returns a configured axios instance
 
 const AuthContext = createContext(null);
 
@@ -11,23 +16,21 @@ export const AuthProvider = ({ children }) => {
   const loading = useSelector(selectLoginLoading);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
 
-  // Effect to load user from token in sessionStorage on initial load
+  // Load user on app mount if token exists
   useEffect(() => {
     const loadUserFromSession = async () => {
       const token = sessionStorage.getItem('token');
       if (token) {
         try {
-          // Assuming you have a profile endpoint that returns user data
           const response = await api.get('/user/profile', {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
+            headers: { Authorization: `Bearer ${token}` },
           });
-          dispatch(setLoginUser(response.data)); // Set user in Redux store
+          dispatch(setLoginUser(response.data));
         } catch (error) {
           console.error('❌ Error loading user from session:', error);
-          dispatch(clearLoginUser()); // Clear user and token in Redux and sessionStorage
+          dispatch(clearLoginUser());
         }
       }
     };
@@ -35,31 +38,30 @@ export const AuthProvider = ({ children }) => {
     loadUserFromSession();
   }, [dispatch]);
 
-  // Effect to handle redirects based on authentication state from Redux
+  // Redirect logic
   useEffect(() => {
-    console.log('🚦 AuthContext redirect useEffect triggered. User:', user, 'Loading:', loading, 'Path:', window.location.pathname);
-    const unauthenticatedRoutes = ['/login', '/register'];
+    const publicRoutes = ['/login', '/signup', '/register', '/forgot-password', '/'];
+
+    console.log(
+      '🚦 AuthContext redirect useEffect triggered.',
+      'User:', user,
+      'Loading:', loading,
+      'Path:', location.pathname
+    );
 
     if (!loading) {
-      if (user) {
-        // If user is authenticated
-        if (unauthenticatedRoutes.includes(window.location.pathname) || window.location.pathname === '/') {
-          // And is currently on an unauthenticated route or the root path, redirect to home
-          console.log('➡️ Redirecting authenticated user to /home');
-          navigate('/home');
-        }
-      } else {
-        // If user is not authenticated
-        if (!unauthenticatedRoutes.includes(window.location.pathname) && window.location.pathname !== '/') {
-          // And is on an authenticated route (not unauthenticated and not root), redirect to login
-          console.log('➡️ Redirecting unauthenticated user to /login');
-          navigate('/login');
-        }
+      if (user && publicRoutes.includes(location.pathname)) {
+        // Redirect authenticated user away from login/signup
+        console.log('➡️ Redirecting authenticated user to /home');
+        if (location.pathname !== '/home') navigate('/home');
+      } else if (!user && !publicRoutes.includes(location.pathname)) {
+        // Redirect unauthenticated user away from protected pages
+        console.log('➡️ Redirecting unauthenticated user to /login');
+        if (location.pathname !== '/login') navigate('/login');
       }
     }
-  }, [user, loading, navigate]);
+  }, [user, loading, location.pathname, navigate]);
 
-  // Removed unused login and register functions
   const logout = () => {
     dispatch(clearLoginUser());
     navigate('/login');
